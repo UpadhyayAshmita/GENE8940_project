@@ -14,7 +14,7 @@ OUTDIR="/work/yclab/au08019/GENE8940_project/hifiasm"
 # Create the directory if it does not exist
 mkdir -p $OUTDIR
 # Load module or conda env
-module load hifiasm/0.18.5
+module load hifiasm/0.19.6-GCCcore-11.3.0
 # Input and output
 READS="Suziblue_allruns.fastq"
 OUT="SuziBlue_Hifiasm"
