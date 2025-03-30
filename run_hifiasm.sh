@@ -5,12 +5,12 @@
 #SBATCH --cpus-per-task=6		                                # Number of cores per task - match this to the num_threads used by BLAST
 #SBATCH --mem=128gb			                                    # Total memory for job
 #SBATCH --time=48:00:00  		                                # Time limit hrs:min:sec
-#SBATCH --output=/work/gene8940/au08019/hifiasm.log.%j	    # Location of standard output and error log files (replace cbergman with your myid)
+#SBATCH --output=/work/yclab/au08019/hifiasm.log.%j	    # Location of standard output and error log files (replace cbergman with your myid)
 #SBATCH --mail-user=au08019@uga.edu                            # Where to send mail (replace cbergman with your myid)
 #SBATCH --mail-type=END,FAIL                                    # Mail events (BEGIN, END, FAIL, ALL)
 
 # Set the output directory variable
-OUTDIR="/work/gene8940/au08019/GENE8940_project/hifiasm"
+OUTDIR="/work/yclab/au08019/GENE8940_project/hifiasm"
 # Create the directory if it does not exist
 mkdir -p $OUTDIR
 # Load module or conda env
