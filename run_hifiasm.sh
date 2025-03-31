@@ -20,5 +20,5 @@ module load hifiasm/0.19.6-GCCcore-11.3.0
 READS="${OUTDIR}/Suziblue_allruns.fastq"
 OUT="${OUTDIR}/SuziBlue_Hifiasm"
 
-# Run hifiasm in tetraploid mode
-hifiasm -o ${OUT} -t 32 --poly ${READS}
+# Run hifiasm 
+hifiasm -o ${OUT} -t 32 ${READS}
