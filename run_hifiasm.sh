@@ -17,7 +17,7 @@ mkdir -p $OUTDIR
 module load hifiasm/0.19.6-GCCcore-11.3.0
 
 # Input and output
-READS="${OUTDIR}/Suziblue_allruns.fastq"
+READS="/home/au08019/GENE8940_project/Suziblue_allruns.fastq"
 OUT="${OUTDIR}/SuziBlue_Hifiasm"
 
 # Run hifiasm 
