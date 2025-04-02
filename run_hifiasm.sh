@@ -14,7 +14,7 @@ OUTDIR="/work/yclab/au08019/GENE8940_project/hifiasm"
 mkdir -p $OUTDIR
 
 # Load module
-module load hifiasm/0.19.6-GCCcore-11.3.0
+module load hifiasm/0.24.0-GCCcore-12.3.0 
 
 # Input and output
 READS="/home/au08019/GENE8940_project/Suziblue_allruns.fastq"
@@ -22,3 +22,19 @@ OUT="${OUTDIR}/SuziBlue_Hifiasm"
 
 # Run hifiasm 
 hifiasm -o ${OUT} -t 32 ${READS}
+#first converting the gfa format into fasta format using awk for passing the fasta file to QUAST
+awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.fa
+awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.hap1.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.hap1.fa
+awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.hap2.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.hap2.fa
+#using quast now ; assembly evaluation using QUAST
+module load QUAST/5.2.0-foss-2022a
+mkdir -p $OUTDIR/QUAST
+quast.py \
+-o $OUTDIR/QUAST \
+-t 32 \
+-r /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta \
+ $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.fa \
+ $OUTDIR/SuziBlue_Hifiasm.hap1.fa \
+ $OUTDIR/SuziBlue_Hifiasm.hap2.fa
+
+
