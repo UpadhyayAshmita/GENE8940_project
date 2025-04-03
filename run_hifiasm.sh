@@ -36,10 +36,10 @@ module load RagTag/2.0.1-foss-2022a
 mkdir -p $OUTDIR/ragtag
 
 ragtag.py scaffold \
-  -r /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta \
-  -q /work/yclab/au08019/GENE8940_project/hifiasm/SuziBlue_Hifiasm.unitigs.fa \
-  -o /work/yclab/au08019/GENE8940_project/hifiasm/ragtag \
-  --threads 32
+  -t 32 \
+  -o $OUTDIR/ragtag \
+  /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta \
+  $OUTDIR/SuziBlue_Hifiasm.unitigs.fa
 
 #using quast now ; assembly evaluation using QUAST
 #module load QUAST/5.2.0-foss-2022a
