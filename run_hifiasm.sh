@@ -10,9 +10,6 @@
 #SBATCH --mail-type=END,FAIL
 
 
-CONDA_BASE=$(conda info --base)
-source ${CONDA_BASE}/etc/profile.d/conda.sh
-conda activate pteranodon
 # Output directory
 OUTDIR="/work/yclab/au08019/GENE8940_project/hifiasm"
 mkdir -p $OUTDIR
@@ -34,14 +31,14 @@ mkdir -p $OUTDIR
 # Extract unitigs (primary contigs in GFA format) from HiFiAsm output
 awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.r_utg.gfa > $OUTDIR/SuziBlue_Hifiasm.unitigs.fa
 
-#using pteranodon for scaffolding
-# Make sure the output folder for Pteranodon exists
-mkdir -p $OUTDIR/PTERANODON
+#using ragtag for scaffolding
+module load RagTag/2.0.1-foss-2022a
+mkdir -p $OUTDIR/ragtag
 
-pteranodon scaffold \
+ragtag.py scaffold \
   -r /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta \
   -q /work/yclab/au08019/GENE8940_project/hifiasm/SuziBlue_Hifiasm.unitigs.fa \
-  -o /work/yclab/au08019/GENE8940_project/hifiasm/PTERANODON \
+  -o /work/yclab/au08019/GENE8940_project/hifiasm/ragtag \
   --threads 32
 
 #using quast now ; assembly evaluation using QUAST
