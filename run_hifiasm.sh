@@ -25,7 +25,7 @@ hifiasm -o ${OUT} -t 32 ${READS}
 #awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.hap1.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.hap1.fa
 #awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.hap2.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.hap2.fa
 
-# Extract unitigs (primary contigs in GFA format) from HiFiAsm output
+# Extract unitigs (primary unitigs in GFA format) from HiFiAsm output
 awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.r_utg.gfa > $OUTDIR/SuziBlue_Hifiasm.unitigs.fa
 
 #using ragtag for scaffolding
