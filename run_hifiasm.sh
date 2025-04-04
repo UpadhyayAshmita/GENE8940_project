@@ -41,15 +41,16 @@ ragtag.py scaffold \
   /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta \
   $OUTDIR/SuziBlue_Hifiasm.unitigs.fa
 
+#checking the stats of ragtag using seqkit to see the num of seq
+module load SeqKit/2.5.1
+seqkit stats ragtag.scaffold.fasta
 #using quast now ; assembly evaluation using QUAST
-#module load QUAST/5.2.0-foss-2022a
-#mkdir -p $OUTDIR/QUAST
-#quast.py \
-#-o $OUTDIR/QUAST \
-#-t 32 \
-#-r /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta \
-# $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.fa \
-# $OUTDIR/SuziBlue_Hifiasm.hap1.fa \
-# $OUTDIR/SuziBlue_Hifiasm.hap2.fa
+module load QUAST/5.2.0-foss-2022a
+mkdir -p $OUTDIR/QUAST
+quast.py \
+-o $OUTDIR/QUAST \
+-t 32 \
+-r /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta \
+ $OUTDIR/ragtag/ragtag.scaffold.fasta 
 
 
