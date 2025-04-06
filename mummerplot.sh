@@ -1,11 +1,11 @@
 #!/bin/bash
-#SBATCH --job-name=run_hifiasm
+#SBATCH --job-name=run_mummerplot
 #SBATCH --partition=batch
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=128gb
 #SBATCH --time=24:00:00
-#SBATCH --output=/work/yclab/au08019/hifiasm.log.%j
+#SBATCH --output=/work/yclab/au08019/mummerplot.log.%j
 #SBATCH --mail-user=au08019@uga.edu
 #SBATCH --mail-type=END,FAIL
 
