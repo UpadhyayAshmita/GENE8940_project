@@ -18,26 +18,31 @@ module load hifiasm/0.24.0-GCCcore-12.3.0
 READS="/home/au08019/GENE8940_project/Suziblue_allruns.fastq"
 OUT="${OUTDIR}/SuziBlue_Hifiasm"
 
-# Run hifiasm 
-hifiasm -o ${OUT} -t 32 ${READS}
-#first converting the gfa format into fasta format using awk for passing the fasta file to QUAST
-awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.fa
-awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.hap1.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.hap1.fa
-awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.hap2.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.hap2.fa
-
-# Extract unitigs (primary unitigs in GFA format) from HiFiAsm output
-#awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.r_utg.gfa > $OUTDIR/SuziBlue_Hifiasm.unitigs.fa
+# # Run hifiasm 
+# hifiasm -o ${OUT} -t 32 ${READS}
+# #first converting the gfa format into fasta format using awk for passing the fasta file to QUAST
+# awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.fa
+# awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.hap1.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.hap1.fa
+# awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.hap2.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.hap2.fa
 
 
 #assembly evaluation using QUAST
-module load QUAST/5.2.0-foss-2022a
-mkdir -p $OUTDIR/QUAST
-quast.py \
--o $OUTDIR/QUAST \
--t 32 \
--r /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta \
- $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.fa 
+# module load QUAST/5.2.0-foss-2022a
+# mkdir -p $OUTDIR/QUAST
+# quast.py \
+# -o $OUTDIR/QUAST \
+# -t 32 \
+# -r /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta \
+#  $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.fa 
 
+
+#generating mummerplot
+mkdir -p $OUTDIR/mummer
+module load MUMmer/4.0.0rc1-GCCcore-11.3.0
+#using mummer for hifi assembly
+nucmer -t 32 /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.fa -p $OUTDIR/mummer/hifiasmcontigs_vs_ref
+delta-filter -1 $OUTDIR/mummer/hifiasmcontigs_vs_ref.delta > $OUTDIR/mummer/hifiasm_vs_ref.1delta
+mummerplot --size large --layout --color -f --png $OUTDIR/mummer/hifiasmcontigs_vs_ref.1delta -p $OUTDIR/mummer/hifiasmcontigs_vs_ref
 #downloading the pdf and html file 
 #scp sapelo2:/work/yclab/au08019/GENE8940_project/hifiasm/QUAST/report.pdf .
 
