@@ -41,7 +41,7 @@ mkdir -p $OUTDIR/mummer
 module load MUMmer/4.0.0rc1-GCCcore-11.3.0
 #using mummer for hifi assembly
 nucmer -t 32 /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.fa -p $OUTDIR/mummer/hifiasmcontigs_vs_ref
-delta-filter -1 $OUTDIR/mummer/hifiasmcontigs_vs_ref.delta > $OUTDIR/mummer/hifiasm_vs_ref.1delta
+delta-filter -1 $OUTDIR/mummer/hifiasmcontigs_vs_ref.delta > $OUTDIR/mummer/hifiasmcontigs_vs_ref.1delta
 mummerplot --size large --layout --color -f --png $OUTDIR/mummer/hifiasmcontigs_vs_ref.1delta -p $OUTDIR/mummer/hifiasmcontigs_vs_ref
 #downloading the pdf and html file 
 #scp sapelo2:/work/yclab/au08019/GENE8940_project/hifiasm/QUAST/report.pdf .
