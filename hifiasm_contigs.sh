@@ -33,21 +33,32 @@ OUT="${OUTDIR}/SuziBlue_Hifiasm"
 # # Extract only long contigs into a new FASTA
 # samtools faidx $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.fa $(cat $OUTDIR/SuziBlue_Hifiasm.long_contigs.txt) > $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa
 #assembly evaluation using QUAST
-module load QUAST/5.2.0-foss-2022a
-mkdir -p $OUTDIR/QUAST
-quast.py \
--o $OUTDIR/QUAST \
--t 32 \
--r /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta \
- $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa
+# module load QUAST/5.2.0-foss-2022a
+# mkdir -p $OUTDIR/QUAST
+# quast.py \
+# -o $OUTDIR/QUAST \
+# -t 32 \
+# -r /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta \
+#  $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa
 
-#generating mummerplot
-mkdir -p $OUTDIR/mummer
-module load MUMmer/4.0.0rc1-GCCcore-11.3.0
-#using mummer for hifi assembly
-nucmer -t 32 /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa -p $OUTDIR/mummer/hifiasmcontigs_vs_ref
-delta-filter -1 $OUTDIR/mummer/hifiasmcontigs_vs_ref.delta > $OUTDIR/mummer/hifiasmcontigs_vs_ref.1delta
-mummerplot --size large --layout --color -f --png $OUTDIR/mummer/hifiasmcontigs_vs_ref.1delta -p $OUTDIR/mummer/hifiasmcontigs_vs_ref
+# #generating mummerplot
+# mkdir -p $OUTDIR/mummer
+# module load MUMmer/4.0.0rc1-GCCcore-11.3.0
+# #using mummer for hifi assembly
+# nucmer -t 32 /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa -p $OUTDIR/mummer/hifiasmcontigs_vs_ref
+# delta-filter -1 $OUTDIR/mummer/hifiasmcontigs_vs_ref.delta > $OUTDIR/mummer/hifiasmcontigs_vs_ref.1delta
+# mummerplot --size large --layout --color -f --png $OUTDIR/mummer/hifiasmcontigs_vs_ref.1delta -p $OUTDIR/mummer/hifiasmcontigs_vs_ref
+
+#run busco 
+module load BUSCO/5.4.4-foss-2022a
+mkdir -p $OUTDIR/BUSCO
+busco -i $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa \
+-o SuziBlue_BUSCO \
+-m genome \
+--auto-lineage-euk \
+-c 32 \
+--out_path $OUTDIR/BUSCO
+
 #downloading the pdf and html file 
 #scp sapelo2:/work/yclab/au08019/GENE8940_project/hifiasm/QUAST/report.pdf .
 
