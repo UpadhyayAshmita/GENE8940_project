@@ -50,14 +50,14 @@ OUT="${OUTDIR}/SuziBlue_Hifiasm"
 # mummerplot --size large --layout --color -f --png $OUTDIR/mummer/hifiasmcontigs_vs_ref.1delta -p $OUTDIR/mummer/hifiasmcontigs_vs_ref
 
 #run busco 
-module load BUSCO/5.4.4-foss-2022a
+module load BUSCO/5.8.3-foss-2023a
 mkdir -p $OUTDIR/BUSCO
 busco -i $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa \
--o SuziBlue_BUSCO \
--m genome \
---auto-lineage-euk \
--c 32 \
---out_path $OUTDIR/BUSCO
+ -o SuziBlue_BUSCO \
+ -m genome \
+ --auto-lineage-euk \
+ -c 32 \
+ --out_path $OUTDIR/BUSCO
 
 #downloading the pdf and html file 
 #scp sapelo2:/work/yclab/au08019/GENE8940_project/hifiasm/QUAST/report.pdf .
