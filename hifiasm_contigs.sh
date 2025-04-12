@@ -22,25 +22,25 @@ OUT="${OUTDIR}/SuziBlue_Hifiasm"
 hifiasm -o ${OUT} -t 32 ${READS}
 
 #first converting the gfa format into fasta format using awk for passing the fasta file to QUAST
-# awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.fa
+awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.fa
 # awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.hap1.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.hap1.fa
 # awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.hap2.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.hap2.fa
 
 # Index the contigs FASTA using samtools
-# module load SAMtools/1.16.1-GCC-11.3.0
-# samtools faidx $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.fa
-# # Get list of contigs >= 50kb and filtering those from the contigs
-# awk '$2 >= 50000' $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.fa.fai | cut -f1 > $OUTDIR/SuziBlue_Hifiasm.long_contigs.txt
-# # Extract only long contigs into a new FASTA
-# samtools faidx $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.fa $(cat $OUTDIR/SuziBlue_Hifiasm.long_contigs.txt) > $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa
-# assembly evaluation using QUAST
-# module load QUAST/5.2.0-foss-2022a
-# mkdir -p $OUTDIR/QUAST
-# quast.py \
-# -o $OUTDIR/QUAST \
-# -t 32 \
-# -r /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta \
-#  $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa
+module load SAMtools/1.16.1-GCC-11.3.0
+samtools faidx $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.fa
+# Get list of contigs >= 50kb and filtering those from the contigs
+awk '$2 >= 50000' $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.fa.fai | cut -f1 > $OUTDIR/SuziBlue_Hifiasm.long_contigs.txt
+# Extract only long contigs into a new FASTA
+samtools faidx $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.fa $(cat $OUTDIR/SuziBlue_Hifiasm.long_contigs.txt) > $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa
+assembly evaluation using QUAST
+module load QUAST/5.2.0-foss-2022a
+mkdir -p $OUTDIR/QUAST
+quast.py \
+-o $OUTDIR/QUAST \
+-t 32 \
+-r /home/au08019/blueberry_hifi/DraperChrOrdered_modified.fasta \
+ $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa
 
 # #generating mummerplot
 # mkdir -p $OUTDIR/mummer
