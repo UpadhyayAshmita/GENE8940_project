@@ -13,13 +13,13 @@
 OUTDIR="/work/yclab/au08019/GENE8940_project/rerun_hifiasm"
 mkdir -p $OUTDIR
 # Load module
-module load hifiasm/0.24.0-GCCcore-12.3.0 
-# Input and output
-READS="/home/au08019/blueberry_hifi/Suziblue_allruns.fastq"
-OUT="${OUTDIR}/SuziBlue_Hifiasm"
+# module load hifiasm/0.24.0-GCCcore-12.3.0 
+# # Input and output
+# READS="/home/au08019/blueberry_hifi/Suziblue_allruns.fastq"
+# OUT="${OUTDIR}/SuziBlue_Hifiasm"
 
-#Run hifiasm 
-hifiasm -o ${OUT} -t 32 ${READS}
+# #Run hifiasm 
+# hifiasm -o ${OUT} -t 32 ${READS}
 
 #first converting the gfa format into fasta format using awk for passing the fasta file to QUAST
 awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.fa
