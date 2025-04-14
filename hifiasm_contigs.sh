@@ -43,34 +43,34 @@ mkdir -p $OUTDIR
 #  $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa
 
 #generating mummerplot
-mkdir -p $OUTDIR/mummer
-module load MUMmer/4.0.0rc1-GCCcore-11.3.0
-#using mummer for hifi assembly
-nucmer -t 32 /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa -p $OUTDIR/mummer/hifiasmcontigs_vs_ref
-delta-filter -1 $OUTDIR/mummer/hifiasmcontigs_vs_ref.delta > $OUTDIR/mummer/hifiasmcontigs_vs_ref.1delta
-mummerplot --size large --layout --color -f --png $OUTDIR/mummer/hifiasmcontigs_vs_ref.1delta -p $OUTDIR/mummer/hifiasmcontigs_vs_ref
+# mkdir -p $OUTDIR/mummer
+# module load MUMmer/4.0.0rc1-GCCcore-11.3.0
+# #using mummer for hifi assembly
+# nucmer -t 32 /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa -p $OUTDIR/mummer/hifiasmcontigs_vs_ref
+# delta-filter -1 $OUTDIR/mummer/hifiasmcontigs_vs_ref.delta > $OUTDIR/mummer/hifiasmcontigs_vs_ref.1delta
+# mummerplot --size large --layout --color -f --png $OUTDIR/mummer/hifiasmcontigs_vs_ref.1delta -p $OUTDIR/mummer/hifiasmcontigs_vs_ref
 
-# #run busco 
-# module load BUSCO/5.8.3-foss-2023a
-# mkdir -p $OUTDIR/BUSCO
-# busco -i $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa \
-#  -o SuziBlue_BUSCO \
-#  -m genome \
-#  --auto-lineage-euk \
-#  -c 32 \
-#  --out_path $OUTDIR/BUSCO
+#run busco 
+module load BUSCO/5.8.3-foss-2023a
+mkdir -p $OUTDIR/BUSCO
+busco -i $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa \
+ -o SuziBlue_BUSCO \
+ -m genome \
+ s-l eudicots_odb10 \
+ -c 32 \
+ --out_path $OUTDIR/BUSCO
 
 
 
-# #running minimap to see how many contigs are overlapping
-# #first creating the reference index
-# module load minimap2/2.24-GCCcore-11.3.0
-# minimap2 -d $OUTDIR/DraperChrOrdered_modified.mmi /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta
-# minimap2 $OUTDIR/DraperChrOrdered_modified.mmi $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa > $OUTDIR/SuziBlue_Hifiasm_vs_Draper.paf
-# head -n 5 $OUTDIR/SuziBlue_Hifiasm_vs_Draper.paf
-# echo "Number of overlapping alignments:"
-# wc -l $OUTDIR/SuziBlue_Hifiasm_vs_Draper.paf
-# cut -f1 $OUTDIR/SuziBlue_Hifiasm_vs_Draper.paf | sort | uniq | wc -l
+#running minimap to see how many contigs are overlapping
+#first creating the reference index
+module load minimap2/2.24-GCCcore-11.3.0
+minimap2 -d $OUTDIR/DraperChrOrdered_modified.mmi /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta
+minimap2 $OUTDIR/DraperChrOrdered_modified.mmi $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa > $OUTDIR/SuziBlue_Hifiasm_vs_Draper.paf
+head -n 5 $OUTDIR/SuziBlue_Hifiasm_vs_Draper.paf
+echo "Number of overlapping alignments:"
+wc -l $OUTDIR/SuziBlue_Hifiasm_vs_Draper.paf
+cut -f1 $OUTDIR/SuziBlue_Hifiasm_vs_Draper.paf | sort | uniq | wc -l
 
 
 
