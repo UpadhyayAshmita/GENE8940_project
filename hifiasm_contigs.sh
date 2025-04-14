@@ -56,7 +56,7 @@ mkdir -p $OUTDIR/BUSCO
 busco -i $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa \
  -o SuziBlue_BUSCO \
  -m genome \
- s-l eudicots_odb10 \
+ -l eudicots_odb10 \
  -c 32 \
  --out_path $OUTDIR/BUSCO
 
