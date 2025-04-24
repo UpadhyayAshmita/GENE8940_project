@@ -15,15 +15,15 @@ mkdir -p $OUTDIR
 # Load module
 module load hifiasm/0.24.0-GCCcore-12.3.0 
 # Input and output
-READS="/home/au08019/GENE8940_project/Suziblue_allruns.fastq"
+READS="/home/au08019/blueberry_hifi/Suziblue_allruns.fastq"
 OUT="${OUTDIR}/SuziBlue_Hifiasm"
 
 # Run hifiasm 
 hifiasm -o ${OUT} -t 32 ${READS}
 #first converting the gfa format into fasta format using awk for passing the fasta file to QUAST
 #awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.bp.p_ctg.fa
-#awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.hap1.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.hap1.fa
-#awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.hap2.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.hap2.fa
+awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.hap1.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.hap1.fa
+awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.hap2.p_ctg.gfa > $OUTDIR/SuziBlue_Hifiasm.hap2.fa
 
 # Extract unitigs (primary unitigs in GFA format) from HiFiAsm output
 awk '/^S/{print ">"$2"\n"$3}' $OUTDIR/SuziBlue_Hifiasm.bp.r_utg.gfa > $OUTDIR/SuziBlue_Hifiasm.unitigs.fa
@@ -35,7 +35,7 @@ mkdir -p $OUTDIR/ragtag
 ragtag.py scaffold \
   -t 32 \
   -o $OUTDIR/ragtag \
-  /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta \
+  /home/au08019/blueberry_hifi/DraperChrOrdered_modified.fasta \
   $OUTDIR/SuziBlue_Hifiasm.unitigs.fa
 
 #checking the stats of ragtag using seqkit to see the num of seq
@@ -48,7 +48,7 @@ mkdir -p $OUTDIR/QUAST
 quast.py \
 -o $OUTDIR/QUAST \
 -t 32 \
--r /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta \
+-r /home/au08019/blueberry_hifi/DraperChrOrdered_modified.fasta \
  $OUTDIR/ragtag/ragtag.scaffold.fasta 
 
 #downloading the pdf and html file 
