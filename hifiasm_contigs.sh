@@ -89,10 +89,32 @@ module load MUMmer/4.0.0rc1-GCCcore-11.3.0
 # awk '$7 >= 10000 && $8 >= 10000 && $9 >= 95' $OUTDIR/mummer/coords.txt > $OUTDIR/mummer/filtered_95percnt_idycord.txt #filtered IDY > 95% only - we have 81,554 in count
 
 # generate filtered delta and cleaner MUMmerplot (IDY ≥ 95%, length ≥ 10kb)
-delta-filter -r -q -i 95 -l 10000 $OUTDIR/mummer/hifiasmcontigs_vs_ref.delta > $OUTDIR/mummer/hifiasmcontigs_vs_ref.filtered.delta
+# delta-filter -r -q -i 95 -l 10000 $OUTDIR/mummer/hifiasmcontigs_vs_ref.delta > $OUTDIR/mummer/hifiasmcontigs_vs_ref.filtered.delta
 
 # Create filtered plot (PNG)
-mummerplot --size large --layout --color -f --png $OUTDIR/mummer/hifiasmcontigs_vs_ref.filtered.delta -p $OUTDIR/mummer/hifiasmcontigs_vs_ref.filtered
+# mummerplot --size large --layout --color -f --png $OUTDIR/mummer/hifiasmcontigs_vs_ref.filtered.delta -p $OUTDIR/mummer/hifiasmcontigs_vs_ref.filtered
+
+
+#changing filter of nucmer
+# Create output directory for testing
+mkdir -p $OUTDIR/mummertest
+
+# Load MUMmer module
+module load MUMmer/4.0.0rc1-GCCcore-11.3.0
+
+# Run NUCmer with sensitive parameters
+nucmer --maxmatch -l 100 -c 500 -t 32 \
+  /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta \
+  $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa \
+  -p $OUTDIR/mummertest/hifiasmcontigs_vs_ref
+
+# Filter delta file (initial strict filtering for test)
+delta-filter -1 $OUTDIR/mummertest/hifiasmcontigs_vs_ref.delta > $OUTDIR/mummertest/hifiasmcontigs_vs_ref.1delta
+
+# Generate plot
+mummerplot --size large --layout --color -f --png \
+  $OUTDIR/mummertest/hifiasmcontigs_vs_ref.1delta \
+  -p $OUTDIR/mummertest/hifiasmcontigs_vs_ref
 
 
 
