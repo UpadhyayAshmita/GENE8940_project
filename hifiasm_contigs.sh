@@ -83,7 +83,7 @@ module load MUMmer/4.0.0rc1-GCCcore-11.3.0
 
 #further filtering of contigs file of suziblue for mummerplot 
 show-coords -rcl $OUTDIR/mummer/hifiasmcontigs_vs_ref.delta > $OUTDIR/mummer/coords.txt
-awk '$7 >= 10000 && $8 >= 10000 && $9 >= 95' coords.txt > filtered_95percnt_idycord.txt #filtered IDY > 95% only - we have 81,554 in count
+awk '$7 >= 10000 && $8 >= 10000 && $9 >= 95' $OUTDIR/mummer/coords.txt > $OUTDIR/mummer/filtered_95percnt_idycord.txt #filtered IDY > 95% only - we have 81,554 in count
 
 # generate filtered delta and cleaner MUMmerplot (IDY ≥ 95%, length ≥ 10kb)
 delta-filter -i 95 -l 10000 $OUTDIR/mummer/hifiasmcontigs_vs_ref.delta > $OUTDIR/mummer/hifiasmcontigs_vs_ref.filtered.delta
