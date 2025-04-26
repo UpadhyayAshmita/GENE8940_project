@@ -97,24 +97,37 @@ module load MUMmer/4.0.0rc1-GCCcore-11.3.0
 
 #changing filter of nucmer
 # Create output directory for testing
-mkdir -p $OUTDIR/mummertest
+# mkdir -p $OUTDIR/mummertest
 
-# Load MUMmer module
-module load MUMmer/4.0.0rc1-GCCcore-11.3.0
+# # Load MUMmer module
+# module load MUMmer/4.0.0rc1-GCCcore-11.3.0
 
-# Run NUCmer with sensitive parameters
-nucmer --maxmatch -l 100 -c 500 -t 32 \
-  /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta \
-  $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa \
-  -p $OUTDIR/mummertest/hifiasmcontigs_vs_ref
+# # Run NUCmer with sensitive parameters
+# nucmer --maxmatch -l 100 -c 500 -t 32 \
+#   /home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta \
+#   $OUTDIR/SuziBlue_Hifiasm.contigs.50kb.fa \
+#   -p $OUTDIR/mummertest/hifiasmcontigs_vs_ref
 
-# Filter delta file (initial strict filtering for test)
-delta-filter -1 $OUTDIR/mummertest/hifiasmcontigs_vs_ref.delta > $OUTDIR/mummertest/hifiasmcontigs_vs_ref.1delta
+# # Filter delta file (initial strict filtering for test)
+# delta-filter -1 $OUTDIR/mummertest/hifiasmcontigs_vs_ref.delta > $OUTDIR/mummertest/hifiasmcontigs_vs_ref.1delta
 
-# Generate plot
-mummerplot --size large --layout --color -f --png \
-  $OUTDIR/mummertest/hifiasmcontigs_vs_ref.1delta \
-  -p $OUTDIR/mummertest/hifiasmcontigs_vs_ref
+# # Generate plot
+# mummerplot --size large --layout --color -f --png \
+#   $OUTDIR/mummertest/hifiasmcontigs_vs_ref.1delta \
+#   -p $OUTDIR/mummertest/hifiasmcontigs_vs_ref
 
 
+#variant calling 
+# Load bcftools and samtools modules
+module load BCFtools/1.16-GCC-11.3.0
+module load SAMtools/1.16.1-GCC-11.3.0
+
+# Set variables
+BAM=$OUTDIR/SuziBlue_Hifiasm_vs_Draper.bam
+REF=/home/au08019/GENE8940_project/DraperChrOrdered_modified.fasta
+VCF_OUT=$OUTDIR/SuziBlue_Hifiasm_vs_Draper.raw.vcf
+
+# Variant calling
+bcftools mpileup -f $REF $BAM -Ou --threads 32 | \
+bcftools call -mv -Ov -o $VCF_OUT
 
