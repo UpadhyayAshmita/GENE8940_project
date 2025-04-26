@@ -41,5 +41,5 @@ cat $MUMMER_OUT/chr_*.filtered.delta > $MUMMER_OUT/all_chr.filtered.delta
 echo "🧹 Running global 1-to-1 best match filter..."
 delta-filter -1 $MUMMER_OUT/all_chr.filtered.delta > $MUMMER_OUT/all_chr.best.delta
 echo "🖼️ Generating a combined whole-genome plot..."
-mummerplot --size large --layout --color -f --svg $MUMMER_OUT/all_chr.best.delta -p $MUMMER_OUT/combined_chr_plot
-echo "✅ Finished: Combined clean plot available at: $MUMMER_OUT/combined_chr_plot.svg"
+mummerplot --size large --layout --color -f --png $MUMMER_OUT/all_chr.best.delta -p $MUMMER_OUT/combined_chr_plot
+echo "✅ Finished: Combined clean plot available at: $MUMMER_OUT/combined_chr_plot.png"
