@@ -119,8 +119,9 @@ module load MUMmer/4.0.0rc1-GCCcore-11.3.0
 
 #variant calling 
 # Load bcftools and samtools modules
-module load BCFtools/1.16-GCC-11.3.0
 module load SAMtools/1.16.1-GCC-11.3.0
+module load BCFtools/1.15.1-GCC-11.3.0
+module load SRA-Toolkit/3.0.1-centos_linux64
 
 # Set variables
 BAM=$OUTDIR/SuziBlue_Hifiasm_vs_Draper.bam
