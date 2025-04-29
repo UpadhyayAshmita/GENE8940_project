@@ -21,25 +21,23 @@ MUMMER_OUT="$OUTDIR/mummer_per_chr"
 
 mkdir -p $CHRS_DIR $MUMMER_OUT
 
-# echo "📦 Splitting reference genome by chromosome..."
-# cd $CHRS_DIR
-# csplit -z -f chr_ -b "%02d.fa" $REF '/^>/' '{*}'
+echo "sSplitting reference genome by chromosome..."
+cd $CHRS_DIR
+csplit -z -f chr_ -b "%02d.fa" $REF '/^>/' '{*}'
 
-# echo "🔁 Running MUMmerplot chromosome by chromosome..."
-# for chr in $CHRS_DIR/chr_*.fa; do
-#     chrname=$(basename "$chr" .fa)
-#     echo "Processing $chrname..."
+echo "Running MUMmerplot chromosome by chromosome..."
+for chr in $CHRS_DIR/chr_*.fa; do
+    chrname=$(basename "$chr" .fa)
+    echo "Processing $chrname..."
+    nucmer -t 16 "$chr" "$CONTIGS" -p $MUMMER_OUT/${chrname}
+    delta-filter -i 95 -l 10000 $MUMMER_OUT/${chrname}.delta > $MUMMER_OUT/${chrname}.filtered.delta
+    mummerplot --size large --layout --color -f --png $MUMMER_OUT/${chrname}.filtered.delta -p $MUMMER_OUT/${chrname}
+done
 
-#     nucmer -t 16 "$chr" "$CONTIGS" -p $MUMMER_OUT/${chrname}
-#     delta-filter -i 95 -l 10000 $MUMMER_OUT/${chrname}.delta > $MUMMER_OUT/${chrname}.filtered.delta
-#     mummerplot --size large --layout --color -f --png $MUMMER_OUT/${chrname}.filtered.delta -p $MUMMER_OUT/${chrname}
-# done
-
-# echo "✅ All per-chromosome plots generated in: $MUMMER_OUT"
-
+echo "All per-chromosome plots generated in: $MUMMER_OUT"
 cat $MUMMER_OUT/chr_*.filtered.delta > $MUMMER_OUT/all_chr.filtered.delta
-echo "🧹 Running global 1-to-1 best match filter..."
+echo "Running global 1-to-1 best match filter..."
 delta-filter -1 $MUMMER_OUT/all_chr.filtered.delta > $MUMMER_OUT/all_chr.best.delta
-echo "🖼️ Generating a combined whole-genome plot..."
+echo "Generating a combined whole-genome plot..."
 mummerplot --size large --layout --color -f --png $MUMMER_OUT/all_chr.best.delta -p $MUMMER_OUT/combined_chr_plot
-echo "✅ Finished: Combined clean plot available at: $MUMMER_OUT/combined_chr_plot.png"
+echo "Finished: Combined clean plot available at: $MUMMER_OUT/combined_chr_plot.png"
